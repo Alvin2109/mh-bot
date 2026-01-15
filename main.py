@@ -1,21 +1,20 @@
 import time
+import os  # Importante para leer las llaves secretas
 from vinted_scraper import VintedScraper
 import requests
 
-# --- CONFIGURACIÓN ---
-TOKEN = "7687197350:AAGeoKxVh3mZMP0LQqXzManQHWpPFtlxgec"
-CHAT_ID = "-1003626300588"
-# ---------------------
+# --- CONFIGURACIÓN SEGURA ---
+TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+# ----------------------------
 
-# Arreglo del error: Usamos la URL completa del dominio
 scraper = VintedScraper("https://www.vinted.es")
 vistos = set()
 
-print("¡Buscador corregido y activado!")
+print("¡Buscador seguro activado!")
 
 while True:
     try:
-        # Buscamos Monster High ordenado por lo más nuevo
         items = scraper.search("https://www.vinted.es/catalog?search_text=monster%20high&order=newest_first")
         
         if items:
@@ -25,10 +24,9 @@ while True:
                     url_tg = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={mensaje}"
                     requests.get(url_tg)
                     vistos.add(item.id)
-                    print(f"Anuncio detectado: {item.id}")
         
-        time.sleep(120) 
+        time.sleep(240) # 4 minutos para evitar bloqueos
         
     except Exception as e:
-        print(f"Aviso: {e}. Reintentando...")
+        print(f"Aviso: {e}")
         time.sleep(60)
