@@ -25,8 +25,8 @@ while True:
                     requests.get(url_tg)
                     vistos.add(item.id)
         
-        time.sleep(240) # 4 minutos para evitar bloqueos
+        time.sleep(600) # 4 minutos para evitar bloqueos
         
     except Exception as e:
         print(f"Aviso: {e}")
-        time.sleep(60)
+        time.sleep(300)
